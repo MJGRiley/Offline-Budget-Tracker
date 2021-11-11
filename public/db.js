@@ -1,5 +1,12 @@
+const indexedDB = //This makes sure it works with multiple browsers
+  window.indexedDB ||
+  window.mozIndexedDB ||
+  window.webkitIndexedDB ||
+  window.msIndexedDB ||
+  window.shimIndexedDB;
+  
 let database;
-const request = indexedDB.open("offline", 1)
+const request = indexedDB.open("offline", 1) 
 
 request.onupgradeneeded = (e) => {
     let db = e.target.result;
@@ -40,7 +47,7 @@ function addToDatabase(store){
             .then(res => {
                 return res.json()
             })
-            .then(data => {
+            .then(() => {
                 const transaction = database.transaction(["pending"],"readwrite")
                 const store =  transaction.objectStore("pending")
                 store.clear()
